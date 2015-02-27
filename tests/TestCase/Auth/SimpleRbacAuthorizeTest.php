@@ -9,6 +9,15 @@ use Cake\Controller\Controller;
 use Cake\Network\Request;
 use Cake\TestSuite\TestCase;
 
+/**
+ * Copyright 2011 - 2015, Florian Krämer
+ *
+ * Licensed under The MIT License
+ * Redistributions of files must retain the above copyright notice.
+ *
+ * @copyright Copyright 2011 - 2015, Florian Krämer
+ * @license MIT License (http://www.opensource.org/licenses/mit-license.php)
+ */
 class SimpleRbacAuthorizeTest extends TestCase {
 
 /**
