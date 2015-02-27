@@ -34,7 +34,7 @@ class SimpleRbacAuthorize extends BaseAuthorize {
  * Authorize a user based on his roles
  *
  * @param array $user The user to authorize
- * @param CakeRequest $request The request needing authorization.
+ * @param Request $request The request needing authorization.
  * @return boolean
  * @throws RuntimeException when the role field does not exist
  */
@@ -65,7 +65,7 @@ class SimpleRbacAuthorize extends BaseAuthorize {
  * Checks if a role is granted access to a controller and action
  *
  * @param array $user
- * @param CakeRequest $request
+ * @param Request $request
  * @return boolean
  */
 	public function authorizeByControllerAndAction($user, Request $request) {
@@ -88,6 +88,13 @@ class SimpleRbacAuthorize extends BaseAuthorize {
 		return false;
 	}
 
+/**
+ * Checks if a role is allowed.
+ *
+ * @param array|string $userRoles
+ * @param array $allowedRoles
+ * @return boolean
+ */
 	protected function _isAllowedRole($userRoles, array $allowedRoles) {
 		if (in_array('*', $allowedRoles)) {
 			return true;
@@ -104,13 +111,13 @@ class SimpleRbacAuthorize extends BaseAuthorize {
 	}
 
 /**
- * Checks if a role is granted access to a prefix route like /admin
+ * Checks if a role is granted access to a prefix route like /admin.
  *
  * @param array $roles
- * @param CakeRequest $request
+ * @param Request $request
  * @return boolean
  */
-	public function authorizeByPrefix($roles, Request $request) {
+	public function authorizeByPrefix(array $roles, Request $request) {
 		$prefixeMap = $this->getPrefixMap();
 		if (isset($request->params['prefix']) && isset($prefixeMap[$request->params['prefix']])) {
 			foreach ($roles as $role) {
@@ -119,7 +126,6 @@ class SimpleRbacAuthorize extends BaseAuthorize {
 				}
 			}
 		}
-
 		return false;
 	}
 
@@ -141,7 +147,7 @@ class SimpleRbacAuthorize extends BaseAuthorize {
 	}
 
 /**
- * Can be overriden if inherited with a method to fetch this from anywhere, a database for exaple
+ * Can be overridden if inherited with a method to fetch this from anywhere, a database for example.
  *
  * @return array
  * @throws RuntimeException
@@ -158,7 +164,7 @@ class SimpleRbacAuthorize extends BaseAuthorize {
  * Can be overriden if inherited with a method to fetch this from anywhere, a database for exaple
  *
  * @return array
- * @throws RuntimeException
+ * @throws \RuntimeException
  */
 	public function getPrefixMap() {
 		$prefixMap = (array) Configure::read('SimpleRbac.prefixMap');
