@@ -20,13 +20,11 @@ class SimpleRbacAuthorize extends BaseAuthorize {
 /**
  * Default config for this object.
  *
- * - `userModel` - Model name that user records can be found under. Defaults to 'User'.
  * - `roleField` - The name of the role field in the user data array that is passed to authorize()
  *
  * @var array
  */
 	public $_defaultConfig = array(
-		'userModel' => 'User',
 		'roleField' => 'role',
 		'allowEmptyActionMap' => false,
 		'allowEmptyPrefixMap' => true,

@@ -50,9 +50,8 @@ class SimpleRbacAuthorizeTest extends TestCase {
 			'id' => '4316da10-4014-4640-8df2-05c2c0a80b96'
 		);
 
-		$request = new Request('/rbac/roles/edit', false);
+		$request = new Request('/rbac/roles/edit');
 		$request->params['plugin'] = 'rbac';
-
 		$this->assertFalse($this->auth->authorize($user, $request));
 	}
 
@@ -68,14 +67,26 @@ class SimpleRbacAuthorizeTest extends TestCase {
 
 		$this->controller->name = 'Roles';
 		$this->controller->action = 'add';
-		$request = new Request('/rbac/roles/add', false);
-		$request->params['plugin'] = 'rbac';
+		$request = new Request('/rbac/roles/add');
+		$request->action = 'add';
+		$request->controller = 'Roles';
+		$request->params = [
+			'plugin' => 'Rbac',
+			'controller' => 'Roles',
+			'action' => 'add'
+		];
 		$this->assertTrue($this->auth->authorize($user, $request));
 
 		$this->controller->name = 'Roles';
 		$this->controller->action = 'index';
-		$request = new Request('/rbac/roles/index', false);
-		$request->params['plugin'] = 'rbac';
+		$request = new Request('/rbac/roles/index');
+		$request->action = 'index';
+		$request->controller = 'Roles';
+		$request->params = [
+			'plugin' => 'Rbac',
+			'controller' => 'Roles',
+			'action' => 'index'
+		];
 		$this->assertTrue($this->auth->authorize($user, $request));
 	}
 }
