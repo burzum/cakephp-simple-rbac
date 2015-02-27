@@ -2,6 +2,7 @@
 namespace Burzum\SimpleRbac\Test\TestCase\Event;
 
 use Burzum\SimpleRbac\Auth\SimpleRbacAuthorize;
+use Cake\Controller\Component;
 use Cake\Core\Configure;
 use Cake\Controller\ComponentRegistry;
 use Cake\Controller\Controller;
@@ -17,9 +18,8 @@ class SimpleRbacAuthorizeTest extends TestCase {
  */
 	public function setUp() {
 		parent::setUp();
-		$this->controller = $this->getMock('Controller', array('isAuthorized'), array(), '', false);
-		$this->components = $this->getMock('ComponentRegistry');
-
+		$this->controller = $this->getMock('Cake\Controller\Controller', ['isAuthorized'], [], '', false);
+		$this->components = $this->getMock('Cake\Controller\ComponentRegistry');
 		$this->components->expects($this->any())
 			->method('getController')
 			->will($this->returnValue($this->controller));
@@ -30,7 +30,7 @@ class SimpleRbacAuthorizeTest extends TestCase {
 			'Rbac.Roles' => array(
 				'index' => array('*'),
 				'add' => array('admin'),
-				'edit' => array()
+				'edit' => []
 			)
 		);
 		Configure::write('SimpleRbac.actionMap', $actionMap);
@@ -46,9 +46,9 @@ class SimpleRbacAuthorizeTest extends TestCase {
 		$this->controller->action = 'edit';
 
 		$user = array(
-			'User' => array(
-				'role' => 'admin',
-				'id' => '4316da10-4014-4640-8df2-05c2c0a80b96'));
+			'role' => 'admin',
+			'id' => '4316da10-4014-4640-8df2-05c2c0a80b96'
+		);
 
 		$request = new Request('/rbac/roles/edit', false);
 		$request->params['plugin'] = 'rbac';
@@ -63,9 +63,7 @@ class SimpleRbacAuthorizeTest extends TestCase {
  */
 	public function testAuthorizeSuccess() {
 		$user = array(
-			'User' => array(
-				'role' => 'admin'
-			)
+			'role' => 'admin'
 		);
 
 		$this->controller->name = 'Roles';

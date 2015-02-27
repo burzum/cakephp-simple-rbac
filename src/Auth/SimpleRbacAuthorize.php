@@ -1,5 +1,5 @@
 <?php
-namespace App\Auth;
+namespace Burzum\SimpleRbac\Auth;
 
 use Cake\Auth\BaseAuthorize;
 use Cake\Network\Request;
@@ -44,7 +44,7 @@ class SimpleRbacAuthorize extends BaseAuthorize {
 		$roleField = $this->_config['roleField'];
 
 		if (!isset($user[$roleField])) {
-			throw new RuntimeException(__d('bz_utils', 'The role field %s does not exist!'));
+			throw new \RuntimeException(__d('bz_utils', 'The role field {0} does not exist!', $user[$roleField]));
 		}
 
 		if (is_string($user[$roleField])) {
@@ -151,7 +151,7 @@ class SimpleRbacAuthorize extends BaseAuthorize {
 	public function getActionMap() {
 		$actionMap = (array) Configure::read('SimpleRbac.actionMap');
 		if (empty($actionMap) && $this->_config['allowEmptyActionMap'] === false) {
-			throw new RuntimeException('SimpleRbac.actionMap configuration is empty!');
+			throw new \RuntimeException('SimpleRbac.actionMap configuration is empty!');
 		}
 		return $actionMap;
 	}
@@ -165,7 +165,7 @@ class SimpleRbacAuthorize extends BaseAuthorize {
 	public function getPrefixMap() {
 		$prefixMap = (array) Configure::read('SimpleRbac.prefixMap');
 		if (empty($prefixMap) && $this->_config['allowEmptyPrefixMap'] === false) {
-			throw new RuntimeException('SimpleRbac.prefixMap configuration is empty!');
+			throw new \RuntimeException('SimpleRbac.prefixMap configuration is empty!');
 		}
 		return $prefixMap;
 	}
