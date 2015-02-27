@@ -1,0 +1,38 @@
+{
+	"name": "burzum/cakephp-simple-rbac",
+	"type": "cakephp-plugin",
+	"description": "A simple to use and configure RBAC authorization adapter for CakePHP",
+	"keywords": ["RBAC", "auth", "authorization"],
+	"homepage": "http://github.com/burzum/cakephp-simple-rbac",
+	"license": "MIT",
+	"authors": [
+		{
+			"name": "Florian Krämer",
+			"homepage": "http://florian-kraemer.net"
+		}
+	],
+	"minimum-stability": "dev",
+	"require": {
+		"php": ">=5.4.19",
+		"cakephp/cakephp": "3.0.*-dev",
+		"cakephp/plugin-installer": "*"
+	},
+	"require-dev": {
+		"phpunit/phpunit": "*"
+	},
+	"autoload": {
+		"psr-4": {
+			"Burzum\\SimpleRbac\\": "src",
+			"Burzum\\SimpleRbac\\Test\\Fixture\\": "tests\\Fixture"
+		}
+	},
+	"autoload-dev": {
+		"psr-4": {
+			"Cake\\Test\\": "/vendor/cakephp/cakephp/tests",
+			"Burzum\\SimpleRbac\\Test\\": "tests"
+		}
+	},
+	"scripts": {
+		"post-autoload-dump": "Cake\\Composer\\Installer\\PluginInstaller::postAutoloadDump"
+	}
+}
