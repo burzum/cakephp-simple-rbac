@@ -1,7 +1,7 @@
 RBAC Configuration
 ==================
 
-To avoid adding a ton of things into `config/boostrap.php` create a new file `config/rbac.php`.
+To avoid adding a ton of things into `config/bootstrap.php` create a new file `config/rbac.php`.
 
 Here is an example of how it could look like:
 
