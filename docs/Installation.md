@@ -29,7 +29,7 @@ Load the adapter like any other authorization adapter as well.
 		$this->loadComponent('Auth', [
 			'authorize' => [
 				//'Controller',
-				'SimpleRbac'
+				'Burzum.SimpleRbac.SimpleRbac'
 			]
 		]);
 	}
