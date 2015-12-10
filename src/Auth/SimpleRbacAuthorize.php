@@ -17,27 +17,27 @@ use Cake\Utility\Inflector;
  */
 class SimpleRbacAuthorize extends BaseAuthorize {
 
-/**
- * Default config for this object.
- *
- * - `roleField` - The name of the role field in the user data array that is passed to authorize()
- *
- * @var array
- */
+	/**
+	 * Default config for this object.
+	 *
+	 * - `roleField` - The name of the role field in the user data array that is passed to authorize()
+	 *
+	 * @var array
+	 */
 	public $_defaultConfig = array(
 		'roleField' => 'role',
 		'allowEmptyActionMap' => false,
 		'allowEmptyPrefixMap' => true,
 	);
 
-/**
- * Authorize a user based on his roles
- *
- * @param array $user The user to authorize
- * @param Request $request The request needing authorization.
- * @return boolean
- * @throws RuntimeException when the role field does not exist
- */
+	/**
+	 * Authorize a user based on his roles
+	 *
+	 * @param array $user The user to authorize
+	 * @param Request $request The request needing authorization.
+	 * @return boolean
+	 * @throws RuntimeException when the role field does not exist
+	 */
 	public function authorize($user, Request $request) {
 		$roleField = $this->_config['roleField'];
 
@@ -60,14 +60,13 @@ class SimpleRbacAuthorize extends BaseAuthorize {
 		return false;
 	}
 
-
-/**
- * Checks if a role is granted access to a controller and action
- *
- * @param array $user
- * @param Request $request
- * @return boolean
- */
+	/**
+	 * Checks if a role is granted access to a controller and action
+	 *
+	 * @param array $user
+	 * @param Request $request
+	 * @return boolean
+	 */
 	public function authorizeByControllerAndAction($user, Request $request) {
 		$roleField = $this->_config['roleField'];
 		extract($this->getConrollerNameAndAction($request));
@@ -88,13 +87,13 @@ class SimpleRbacAuthorize extends BaseAuthorize {
 		return false;
 	}
 
-/**
- * Checks if a role is allowed.
- *
- * @param array|string $userRoles
- * @param array $allowedRoles
- * @return boolean
- */
+	/**
+	 * Checks if a role is allowed.
+	 *
+	 * @param array|string $userRoles
+	 * @param array $allowedRoles
+	 * @return boolean
+	 */
 	protected function _isAllowedRole($userRoles, array $allowedRoles) {
 		if (in_array('*', $allowedRoles)) {
 			return true;
@@ -110,13 +109,13 @@ class SimpleRbacAuthorize extends BaseAuthorize {
 		return false;
 	}
 
-/**
- * Checks if a role is granted access to a prefix route like /admin.
- *
- * @param array $roles
- * @param Request $request
- * @return boolean
- */
+	/**
+	 * Checks if a role is granted access to a prefix route like /admin.
+	 *
+	 * @param array $roles
+	 * @param Request $request
+	 * @return boolean
+	 */
 	public function authorizeByPrefix(array $roles, Request $request) {
 		$prefixeMap = $this->getPrefixMap();
 		if (isset($request->params['prefix']) && isset($prefixeMap[$request->params['prefix']])) {
@@ -129,12 +128,12 @@ class SimpleRbacAuthorize extends BaseAuthorize {
 		return false;
 	}
 
-/**
- * Gets the controller and action, prefixes the controller with the plugin if there is one
- *
- * @param Request $request
- * @return array
- */
+	/**
+	 * Gets the controller and action, prefixes the controller with the plugin if there is one
+	 *
+	 * @param Request $request
+	 * @return array
+	 */
 	public function getConrollerNameAndAction(Request $request) {
 		$controller = $this->_registry->getController();
 		$name = $controller->name;
@@ -146,12 +145,12 @@ class SimpleRbacAuthorize extends BaseAuthorize {
 		return compact('name', 'action');
 	}
 
-/**
- * Can be overridden if inherited with a method to fetch this from anywhere, a database for example.
- *
- * @return array
- * @throws RuntimeException
- */
+	/**
+	 * Can be overridden if inherited with a method to fetch this from anywhere, a database for example.
+	 *
+	 * @return array
+	 * @throws RuntimeException
+	 */
 	public function getActionMap() {
 		$actionMap = (array) Configure::read('SimpleRbac.actionMap');
 		if (empty($actionMap) && $this->_config['allowEmptyActionMap'] === false) {
@@ -160,12 +159,12 @@ class SimpleRbacAuthorize extends BaseAuthorize {
 		return $actionMap;
 	}
 
-/**
- * Can be overriden if inherited with a method to fetch this from anywhere, a database for exaple
- *
- * @return array
- * @throws \RuntimeException
- */
+	/**
+	 * Can be overriden if inherited with a method to fetch this from anywhere, a database for exaple
+	 *
+	 * @return array
+	 * @throws \RuntimeException
+	 */
 	public function getPrefixMap() {
 		$prefixMap = (array) Configure::read('SimpleRbac.prefixMap');
 		if (empty($prefixMap) && $this->_config['allowEmptyPrefixMap'] === false) {
@@ -173,5 +172,4 @@ class SimpleRbacAuthorize extends BaseAuthorize {
 		}
 		return $prefixMap;
 	}
-
 }
