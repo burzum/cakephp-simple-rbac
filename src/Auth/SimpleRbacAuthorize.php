@@ -69,7 +69,7 @@ class SimpleRbacAuthorize extends BaseAuthorize {
 	 */
 	public function authorizeByControllerAndAction($user, Request $request) {
 		$roleField = $this->_config['roleField'];
-		extract($this->getConrollerNameAndAction($request));
+		extract($this->getControllerNameAndAction($request));
 		$actionMap = $this->getActionMap();
 
 		if (isset($actionMap[$name]['*'])) {
@@ -134,7 +134,7 @@ class SimpleRbacAuthorize extends BaseAuthorize {
 	 * @param Request $request
 	 * @return array
 	 */
-	public function getConrollerNameAndAction(Request $request) {
+	public function getControllerNameAndAction(Request $request) {
 		$controller = $this->_registry->getController();
 		$name = $controller->name;
 		$action = $request->action;
