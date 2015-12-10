@@ -20,11 +20,11 @@ use Cake\TestSuite\TestCase;
  */
 class SimpleRbacAuthorizeTest extends TestCase {
 
-/**
- * setup
- *
- * @return void
- */
+	/**
+	 * setup
+	 *
+	 * @return void
+	 */
 	public function setUp() {
 		parent::setUp();
 		$this->controller = $this->getMock('Cake\Controller\Controller', ['isAuthorized'], [], '', false);
@@ -45,11 +45,11 @@ class SimpleRbacAuthorizeTest extends TestCase {
 		Configure::write('SimpleRbac.actionMap', $actionMap);
 	}
 
-/**
- * test failure
- *
- * @return void
- */
+	/**
+	 * test failure
+	 *
+	 * @return void
+	 */
 	public function testAuthorizeFailure() {
 		$this->controller->name = 'Roles';
 		$this->controller->action = 'edit';
@@ -64,11 +64,11 @@ class SimpleRbacAuthorizeTest extends TestCase {
 		$this->assertFalse($this->auth->authorize($user, $request));
 	}
 
-/**
- * test isAuthorized working.
- *
- * @return void
- */
+	/**
+	 * test isAuthorized working.
+	 *
+	 * @return void
+	 */
 	public function testAuthorizeSuccess() {
 		$user = array(
 			'role' => 'admin'
