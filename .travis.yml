@@ -1,4 +1,5 @@
 language: php
+sudo: false
 
 php:
   - 5.6
@@ -15,8 +16,6 @@ matrix:
       env:
         - COVERALLS=1
 
-  fast_finish: true
-
 before_script:
   - composer self-update
   - composer install --prefer-dist --no-interaction
@@ -26,10 +25,7 @@ before_script:
 script:
   - phpunit
   - sh -c "if [ '$COVERALLS' = '1' ]; then phpunit --stderr --coverage-clover build/logs/clover.xml; fi"
-  - sh -c "if [ '$COVERALLS' = '1' ]; then php bin/coveralls -c .coveralls.yml -v; fi"
+  - sh -c "if [ '$COVERALLS' = '1' ]; then php vendor/bin/coveralls -c .coveralls.yml -v; fi"
 
 notifications:
-  slack: world-architects:CEb47sLB0YiVywpTXvRzR9Vc
-  email: true
-  recipients:
-        - travis-ci@world-architects.com
+  email: false
