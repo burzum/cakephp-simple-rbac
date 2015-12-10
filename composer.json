@@ -11,10 +11,8 @@
 			"homepage": "http://florian-kraemer.net"
 		}
 	],
-	"minimum-stability": "dev",
 	"require": {
-		"php": ">=5.4.19",
-		"cakephp/cakephp": "3.0.*-dev",
+		"cakephp/cakephp": "3.*",
 		"cakephp/plugin-installer": "*"
 	},
 	"require-dev": {
