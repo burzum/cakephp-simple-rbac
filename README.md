@@ -3,6 +3,7 @@ Simple RBAC Authorization Adapter for CakePHP
 
 [![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](LICENSE.txt)
 [![Build Status](https://img.shields.io/travis/burzum/cakephp-simple-rbac/master.svg?style=flat-square)](https://travis-ci.org/burzum/cakephp-simple-rbac)
+[![Scrutinizer](https://img.shields.io/scrutinizer/g/filp/whoops.svg)](https://github.com/burzum/cakephp-simple-rbac)
 [![Coverage Status](https://img.shields.io/coveralls/burzum/cakephp-simple-rbac/master.svg?style=flat-square)](https://coveralls.io/r/burzum/cakephp-simple-rbac)
 
 A simple to use and configure RBAC authorization adapter for CakePHP.
