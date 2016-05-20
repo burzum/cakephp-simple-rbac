@@ -28,6 +28,7 @@ class SimpleRbacAuthorize extends BaseAuthorize {
 		'roleField' => 'role',
 		'allowEmptyActionMap' => false,
 		'allowEmptyPrefixMap' => true,
+		'undefinedActionsAreAllowed' => false
 	);
 
 	/**
@@ -82,6 +83,10 @@ class SimpleRbacAuthorize extends BaseAuthorize {
 			if ($this->_isAllowedRole($user[$roleField], $actionMap[$name][$action])) {
 				return true;
 			}
+		}
+
+		if ($this->config('undefinedActionsAreAllowed') === true) {
+			return true;
 		}
 
 		return false;
