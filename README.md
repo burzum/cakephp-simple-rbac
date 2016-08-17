@@ -11,9 +11,7 @@ A simple to use and configure RBAC authorization adapter for CakePHP.
 Requirements
 ------------
 
- * PHP 5.4+
  * CakePHP 3.0
-
 
 A CakePHP 2.x version can be found in the [BzUtils](https://github.com/burzum/cakephp-bz-utils) plugin.
 

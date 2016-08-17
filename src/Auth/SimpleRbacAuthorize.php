@@ -2,9 +2,10 @@
 namespace Burzum\SimpleRbac\Auth;
 
 use Cake\Auth\BaseAuthorize;
-use Cake\Network\Request;
 use Cake\Core\Configure;
+use Cake\Network\Request;
 use Cake\Utility\Inflector;
+use RuntimeException;
 
 /**
  * Copyright 2011 - 2015, Florian Krämer
@@ -28,6 +29,7 @@ class SimpleRbacAuthorize extends BaseAuthorize {
 		'roleField' => 'role',
 		'allowEmptyActionMap' => false,
 		'allowEmptyPrefixMap' => true,
+		'undefinedActionsAreAllowed' => false
 	);
 
 	/**
@@ -42,7 +44,7 @@ class SimpleRbacAuthorize extends BaseAuthorize {
 		$roleField = $this->_config['roleField'];
 
 		if (!isset($user[$roleField])) {
-			throw new \RuntimeException(__d('bz_utils', 'The role field {0} does not exist!', $user[$roleField]));
+			throw new RuntimeException(sprintf('The role field `%s` does not exist!', $roleField));
 		}
 
 		if (is_string($user[$roleField])) {
@@ -82,6 +84,10 @@ class SimpleRbacAuthorize extends BaseAuthorize {
 			if ($this->_isAllowedRole($user[$roleField], $actionMap[$name][$action])) {
 				return true;
 			}
+		}
+
+		if ($this->config('undefinedActionsAreAllowed') === true) {
+			return true;
 		}
 
 		return false;
