@@ -29,6 +29,7 @@ class SimpleRbacAuthorize extends BaseAuthorize {
 		'roleField' => 'role',
 		'allowEmptyActionMap' => false,
 		'allowEmptyPrefixMap' => true,
+		'denyAccessIfPrefixFailed' => false,
 		'undefinedActionsAreAllowed' => false
 	);
 
@@ -53,6 +54,10 @@ class SimpleRbacAuthorize extends BaseAuthorize {
 
 		if ($this->authorizeByPrefix($user[$roleField], $request)) {
 			return true;
+		} else {
+			if ($this->config('denyAccessIfPrefixFailed') === true) {
+				return false;
+			}
 		}
 
 		if ($this->authorizeByControllerAndAction($user, $request)) {
@@ -124,13 +129,16 @@ class SimpleRbacAuthorize extends BaseAuthorize {
 	 */
 	public function authorizeByPrefix(array $roles, Request $request) {
 		$prefixeMap = $this->getPrefixMap();
-		if (isset($request->params['prefix']) && isset($prefixeMap[$request->params['prefix']])) {
+		$prefix = $request->param('prefix');
+
+		if ($prefix && isset($prefixeMap[$prefix])) {
 			foreach ($roles as $role) {
-				if (in_array($role, $prefixeMap[$request->params['prefix']])) {
+				if (in_array($role, $prefixeMap[$prefix])) {
 					return true;
 				}
 			}
 		}
+
 		return false;
 	}
 
@@ -143,11 +151,13 @@ class SimpleRbacAuthorize extends BaseAuthorize {
 	public function getControllerNameAndAction(Request $request) {
 		$controller = $this->_registry->getController();
 		$name = $controller->name;
-		$action = $request->action;
+		$action = $request->param('action');
+		$plugin = $request->param('plugin');
 
-		if (!empty($request->params['plugin'])) {
-			$name = Inflector::camelize($request->params['plugin']) . '.' . $name;
+		if ($plugin) {
+			$name = Inflector::camelize($plugin) . '.' . $name;
 		}
+
 		return compact('name', 'action');
 	}
 
@@ -162,6 +172,7 @@ class SimpleRbacAuthorize extends BaseAuthorize {
 		if (empty($actionMap) && $this->_config['allowEmptyActionMap'] === false) {
 			throw new \RuntimeException('SimpleRbac.actionMap configuration is empty!');
 		}
+
 		return $actionMap;
 	}
 
@@ -176,6 +187,7 @@ class SimpleRbacAuthorize extends BaseAuthorize {
 		if (empty($prefixMap) && $this->_config['allowEmptyPrefixMap'] === false) {
 			throw new \RuntimeException('SimpleRbac.prefixMap configuration is empty!');
 		}
+
 		return $prefixMap;
 	}
 }
