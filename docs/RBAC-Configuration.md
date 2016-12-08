@@ -23,6 +23,9 @@ $config = [
 			'Users' => [
 				'*' => ['admin'],
 			],
+                        'Message.Messages' => [
+                                '*' => ['user', 'author', 'admin'],
+                        ],
 		]
 	]
 ];
