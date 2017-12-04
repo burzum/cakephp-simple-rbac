@@ -89,6 +89,8 @@ class SimpleRbacAuthorize extends BaseAuthorize {
 			if ($this->_isAllowedRole($user[$roleField], $actionMap[$name][$action])) {
 				return true;
 			}
+
+			return false;
 		}
 
 		if ($this->config('undefinedActionsAreAllowed') === true) {
