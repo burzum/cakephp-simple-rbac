@@ -15,7 +15,7 @@ $config = [
 		],
 		'actionMap' => [
 			'Articles' => [
-				'view' => ['user', 'author', 'admin']
+				'view' => ['user', 'author', 'admin'],
 				'add' => ['admin', 'author'],
 				'edit' => ['admin', 'author'],
 				'delete' => ['admin'],
