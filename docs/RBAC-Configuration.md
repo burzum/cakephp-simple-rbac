@@ -1,5 +1,4 @@
-RBAC Configuration
-==================
+# RBAC Configuration
 
 To avoid adding a ton of things into `config/bootstrap.php` create a new file `config/rbac.php`.
 
@@ -34,8 +33,7 @@ Load the configuration file in `config/bootstrap.php`:
 Configure::load('rbac');
 ```
 
-Dynamic Roles and Permissions
------------------------------
+## Dynamic Roles and Permissions
 
 The plugin is not limited to the static roles configuration. You can manage your permissions and roles in the database as well and write them to `config/rbac.php` or simply write at runtime using `Configure::write()`.
 

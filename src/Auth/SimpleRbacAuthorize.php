@@ -3,7 +3,7 @@ namespace Burzum\SimpleRbac\Auth;
 
 use Cake\Auth\BaseAuthorize;
 use Cake\Core\Configure;
-use Cake\Network\Request;
+use Cake\Http\ServerRequest;
 use Cake\Utility\Inflector;
 use RuntimeException;
 
@@ -40,7 +40,7 @@ class SimpleRbacAuthorize extends BaseAuthorize {
 	 * @return boolean
 	 * @throws RuntimeException when the role field does not exist
 	 */
-	public function authorize($user, Request $request) {
+	public function authorize($user, ServerRequest $request) {
 		$roleField = $this->_config['roleField'];
 
 		if (!isset($user[$roleField])) {
@@ -69,8 +69,8 @@ class SimpleRbacAuthorize extends BaseAuthorize {
 	 * @param Request $request
 	 * @return boolean
 	 */
-	public function authorizeByControllerAndAction($user, Request $request) {
-		$roleField = $this->_config['roleField'];
+	public function authorizeByControllerAndAction($user, ServerRequest $request) {
+		$roleField = $this->getConfig('roleField');
 		extract($this->getControllerNameAndAction($request));
 		$actionMap = $this->getActionMap();
 
@@ -86,7 +86,7 @@ class SimpleRbacAuthorize extends BaseAuthorize {
 			}
 		}
 
-		if ($this->config('undefinedActionsAreAllowed') === true) {
+		if ($this->getConfig('undefinedActionsAreAllowed') === true) {
 			return true;
 		}
 
@@ -122,15 +122,17 @@ class SimpleRbacAuthorize extends BaseAuthorize {
 	 * @param Request $request
 	 * @return boolean
 	 */
-	public function authorizeByPrefix(array $roles, Request $request) {
+	public function authorizeByPrefix(array $roles, ServerRequest $request) {
 		$prefixeMap = $this->getPrefixMap();
-		if (isset($request->params['prefix']) && isset($prefixeMap[$request->params['prefix']])) {
+		$prefix = $request->getParam('prefix');
+		if ($prefix !== null && isset($prefixeMap[$prefix])) {
 			foreach ($roles as $role) {
-				if (in_array($role, $prefixeMap[$request->params['prefix']])) {
+				if (in_array($role, $prefixeMap[$prefix])) {
 					return true;
 				}
 			}
 		}
+
 		return false;
 	}
 
@@ -140,14 +142,16 @@ class SimpleRbacAuthorize extends BaseAuthorize {
 	 * @param Request $request
 	 * @return array
 	 */
-	public function getControllerNameAndAction(Request $request) {
+	public function getControllerNameAndAction(ServerRequest $request) {
 		$controller = $this->_registry->getController();
-		$name = $controller->name;
-		$action = $request->action;
+		$name = $controller->getName();
+		$action = $request->getParam('action');
+        $plugin = $request->getParam('plugin');
 
-		if (!empty($request->params['plugin'])) {
-			$name = Inflector::camelize($request->params['plugin']) . '.' . $name;
+		if (!empty($plugin)) {
+			$name = Inflector::camelize($plugin) . '.' . $name;
 		}
+
 		return compact('name', 'action');
 	}
 
@@ -159,8 +163,8 @@ class SimpleRbacAuthorize extends BaseAuthorize {
 	 */
 	public function getActionMap() {
 		$actionMap = (array) Configure::read('SimpleRbac.actionMap');
-		if (empty($actionMap) && $this->_config['allowEmptyActionMap'] === false) {
-			throw new \RuntimeException('SimpleRbac.actionMap configuration is empty!');
+		if (empty($actionMap) && $this->getConfig('allowEmptyActionMap') === false) {
+			throw new RuntimeException('SimpleRbac.actionMap configuration is empty!');
 		}
 		return $actionMap;
 	}
@@ -173,8 +177,8 @@ class SimpleRbacAuthorize extends BaseAuthorize {
 	 */
 	public function getPrefixMap() {
 		$prefixMap = (array) Configure::read('SimpleRbac.prefixMap');
-		if (empty($prefixMap) && $this->_config['allowEmptyPrefixMap'] === false) {
-			throw new \RuntimeException('SimpleRbac.prefixMap configuration is empty!');
+		if (empty($prefixMap) && $this->getConfig('allowEmptyPrefixMap') === false) {
+			throw new RuntimeException('SimpleRbac.prefixMap configuration is empty!');
 		}
 		return $prefixMap;
 	}

@@ -27,8 +27,16 @@ class SimpleRbacAuthorizeTest extends TestCase {
 	 */
 	public function setUp() {
 		parent::setUp();
-		$this->controller = $this->getMock('Cake\Controller\Controller', ['isAuthorized'], [], '', false);
-		$this->components = $this->getMock('Cake\Controller\ComponentRegistry');
+
+		$this->controller = $this->getMockBuilder(Controller::class)
+            ->setMethods(['isAuthorized'])
+            ->disableOriginalConstructor()
+            ->getMock();
+
+		$this->components = $this->getMockBuilder(ComponentRegistry::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+
 		$this->components->expects($this->any())
 			->method('getController')
 			->will($this->returnValue($this->controller));
@@ -42,6 +50,7 @@ class SimpleRbacAuthorizeTest extends TestCase {
 				'edit' => []
 			)
 		);
+
 		Configure::write('SimpleRbac.actionMap', $actionMap);
 	}
 
